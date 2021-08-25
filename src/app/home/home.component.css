@@ -1,0 +1,26 @@
+header,footer{
+ height: 5vh;
+}
+header{
+    background-color: dodgerblue;
+}
+footer{
+    background-color: firebrick;
+}
+.main{
+    height: 90vh;
+}
+ul{
+    list-style: none;
+    height: 100%;
+    padding: 0;
+}
+.btn-outline-primary{
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+}
+li{
+    height: 25%;
+    
+}
