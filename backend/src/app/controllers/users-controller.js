@@ -11,7 +11,9 @@ function getUsers(req,res){
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
     return userService.getUsers()
-            .then(users=>res.status(200).json(users))
+            .then(rows=>{
+                return res.status(200).json(rows.slice(+page*+pageSize,+pageSize*+page+(+pageSize)))
+            })
             .catch(err=>res.status(500).json(err))
 }
 
@@ -28,11 +30,15 @@ function getUserById(req,res){
 
 function addUser(req,res){
    const {name,email,password}=req.body;
-   const created_at=dateTransform(new Date().toLocaleString('en-GB'))
-   const updated_at=dateTransform(new Date().toLocaleString('en-GB'));
-    res.header('Access-Control-Allow-Origin', '*');
+   res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+   if(name===''||email===''||password===''){
+       return res.status(500).json('Incorect input data');
+   }
+   const created_at=dateTransform(new Date().toLocaleString('en-GB'))
+   const updated_at=dateTransform(new Date().toLocaleString('en-GB'));
+    
     return userService.addUser(name,email,password,created_at,updated_at)
             .then(rows=>res.status(200).json("New user created"))
             .catch(err=>res.status(500).json(err))
@@ -43,7 +49,6 @@ function editUser(req,res){
     let id = urlRequest.query.id;
     let {name,email,password} = req.body;
     let updated_at=dateTransform(new Date().toLocaleString('en-GB'));
-    let tmp_name,tmp_email,tmp_password;
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
@@ -67,7 +72,6 @@ function editUser(req,res){
                     password:password,
                     updated_at:updated_at
                 },id).then(rows=>{
-                    console.log(name,email,password);
                     return res.status(200).json(`User №${id} updated`)})
                     .catch(err=>res.status(500).json(err))
                 })

@@ -1,15 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { UsersComponent } from './users/users.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { MyPageComponent } from './my-page/my-page.component';
-import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home-page/home.component';
+import { UsersComponent } from './users/users-page/users.component';
+import { UserDetailsComponent } from './user-details/user-details-page/user-details.component';
+import { NotFoundComponent } from './not-found/not-found-page/not-found.component';
+import { MyPageComponent } from './my-page/my-page-page/my-page.component';
+import { LoginComponent } from './login/login-page/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,8 +28,13 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
+    CoreModule,
+    HttpClientModule,
+    FormsModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({ positionClass: 'inline' }),
+    ToastContainerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

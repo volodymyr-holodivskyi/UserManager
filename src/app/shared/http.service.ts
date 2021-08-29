@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpParams } from '@angular/common/http';
+import { HttpClient,HttpHeaders,HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from './models/user';
+import { User } from '../models/user';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -11,8 +11,11 @@ export class HttpService {
 
   constructor(private http:HttpClient) { }
 
-  getUsers():Observable<User[]>{
-    return this.http.get('http://127.0.0.1:3000/api/v1/users').pipe(
+  getUsers(page:number=0,pageSize:number=0):Observable<User[]>{
+    const params = new HttpParams()
+                  .set('page',page)
+                  .set('pageSize',pageSize)
+    return this.http.get('http://127.0.0.1:3000/api/v1/users',{params}).pipe(
                 map((data:any)=>{
                   let userList=data;
                   return userList.map(function(user:any):User{
@@ -32,5 +35,10 @@ export class HttpService {
                   
                 })
               )
+  }
+  addUser(name:string,email:string,password:string){
+    const body = {name:name,email:email,password:password}
+
+    return this.http.post('http://127.0.0.1:3000/api/v1/users',body);
   }
 }

@@ -1,0 +1,20 @@
+
+a{
+    text-decoration: none;
+}
+.alert{
+    position: absolute;
+}
+.form-floating{
+    position: relative;
+}
+button:disabled{
+    background-color: #3475d6;
+}
+.main{
+    height: 90vh;
+}
+table{
+    margin: 0;
+    text-align: center;
+}

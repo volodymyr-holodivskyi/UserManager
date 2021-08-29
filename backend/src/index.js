@@ -1,14 +1,14 @@
 const express = require("express");
 const mysql=require('mysql2');
-const { getUserById } = require("./app/controllers/users-controller");
+const cors=require('cors')
 
 const authRouter = require("./app/routes/auth-router");
 const userRouter = require("./app/routes/user-router");
 
+const corsOptions ={ origin:'*', credentials:true}
 const app = express();
 app.use(express.json());
-
-//app.use('/api/v1/users/:id',getUserById)
+app.use(cors(corsOptions))
 app.use('/api/v1/users',userRouter)
 app.use('/auth/v1',authRouter)
 

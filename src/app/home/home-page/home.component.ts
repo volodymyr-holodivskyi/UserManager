@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HeaderComponent } from 'src/app/shared/header/header.component';
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
+
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
-
+  constructor() {
+   }
   ngOnInit(): void {
+    
   }
   routes = [
     {path:'/dashboard',title:'Home'},

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { HttpService } from '../http.service';
-import { User } from '../models/user';
+import { HttpService } from '../../shared/http.service';
+import { User } from '../../models/user';
+import { HeaderComponent } from 'src/app/shared/header/header.component';
+import { FooterComponent } from 'src/app/shared/footer/footer.component';
 
 @Component({
   selector: 'app-user-details',
