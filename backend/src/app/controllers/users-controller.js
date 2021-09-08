@@ -12,9 +12,15 @@ function getUsers(req,res){
     res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
     return userService.getUsers()
             .then(rows=>{
-                return res.status(200).json(rows.slice(+page*+pageSize,+pageSize*+page+(+pageSize)))
+                return res.status(200).json(sliceArray(rows,page,pageSize))
             })
             .catch(err=>res.status(500).json(err))
+}
+
+function sliceArray(array,page,pageSize){
+    page=parseInt(page);
+    pageSize=parseInt(pageSize);
+    return array.slice(page*pageSize,page*pageSize+pageSize);
 }
 
 function getUserById(req,res){
