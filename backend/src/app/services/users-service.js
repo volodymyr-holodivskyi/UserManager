@@ -1,16 +1,21 @@
 const mysql=require('mysql2');
-
-const connection=mysql.createConnection({
-    host:'localhost',
-    password:'olehdno200799',
-    user:'root',
-    database:'usermanager'
-}).promise();
+const { connection } = require("./db-service")
 
 function getUsers(){
     return connection.execute(`select * from users`)
-    .then(([rows,fields])=>rows)
-    .catch((err)=>err);
+            .then(([rows,fields])=>rows)
+            .catch((err)=>err);
+}
+
+function getUserByEmailAndPassword(email,password){
+    return connection.execute(`select * from users where email='${email}' and password='${password}'`)
+            .then(([rows,fields])=>rows)
+            .catch((err)=>err);
+}
+function getUserByEmail(email){
+    return connection.execute(`select * from users where email='${email}'`)
+            .then(([rows,fields])=>rows)
+            .catch((err)=>err);
 }
 
 function getUserById(id){
@@ -19,8 +24,8 @@ function getUserById(id){
             .catch((err)=>err);
 }
 
-function addUser(name,email,password,created_at,updated_at){
-    return connection.execute(`insert into users (name,email,password,created_at,updated_at) values ('${name}','${email}','${password}','${created_at}','${updated_at}')`)
+function addUser(name,email,password,role,created_at,updated_at){
+    return connection.execute(`insert into users (name,email,password,role,created_at,updated_at) values ('${name}','${email}','${password}','${role}','${created_at}','${updated_at}')`)
     .then((res)=>res)
     .catch((err)=>err);
 }
@@ -40,6 +45,8 @@ function deleteUser(id){
 
 module.exports={
     getUsers,
+    getUserByEmailAndPassword,
+    getUserByEmail,
     getUserById,
     addUser,
     editUser,

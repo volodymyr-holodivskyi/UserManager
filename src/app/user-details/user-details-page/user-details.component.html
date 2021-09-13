@@ -1,8 +1,12 @@
 <app-header></app-header>
-<div class="container main">
-    <p>User id {{user.id}}</p>
-    <p>User name {{user.name}}</p>
-    <p>User email {{user.email}}</p>
-    <p>User password {{user.password}}</p>
+<div class="main d-flex">
+    <app-aside class="col-md-1"></app-aside>
+    <div class="px-3 py-3">
+        <p>User id {{user.id}}</p>
+        <p>User name {{user.name}}</p>
+        <p>User email {{user.email}}</p>
+        <p>User password {{user.password}}</p>
+    </div>
 </div>
+
 <app-footer></app-footer>

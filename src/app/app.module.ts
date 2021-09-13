@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home-page/home.component';
@@ -12,9 +11,11 @@ import { UserDetailsComponent } from './user-details/user-details-page/user-deta
 import { NotFoundComponent } from './not-found/not-found-page/not-found.component';
 import { MyPageComponent } from './my-page/my-page-page/my-page.component';
 import { LoginComponent } from './login/login-page/login.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
+import { HttpErrorInterceptorService } from './shared/app-error-handler.service';
+import { EditUserPageComponent } from './edit-user/edit-user-page/edit-user-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SharedModule } from './shared/shared.module';
     UserDetailsComponent,
     NotFoundComponent,
     MyPageComponent,
-    LoginComponent
+    LoginComponent,
+    EditUserPageComponent
   ],
   imports: [
     BrowserModule,
@@ -33,10 +35,10 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     SharedModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({ positionClass: 'inline' }),
-    ToastContainerModule
+    ToastrModule.forRoot({positionClass: 'inline'}),
+    ToastContainerModule,
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptorService , multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

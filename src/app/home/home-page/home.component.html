@@ -1,12 +1,6 @@
 <app-header></app-header>
 <div class="main d-flex">
-    <aside class="col-md-1">
-        <ul>
-            <li *ngFor="let route of routes">
-                <button class="btn btn-outline-primary" [routerLink]="route.path">{{route.title}}</button>
-            </li>
-        </ul>
-    </aside>
+    <app-aside class="col-md-1"></app-aside>
     <div class="container col-md-11 py-3">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum odio reiciendis facere ipsa nemo dolorem, perspiciatis facilis quae eos, praesentium modi adipisci hic cupiditate culpa itaque obcaecati doloremque, iusto corrupti?
     </div>

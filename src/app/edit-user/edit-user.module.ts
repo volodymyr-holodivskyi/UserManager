@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { EditUserPageComponent } from './edit-user-page/edit-user-page.component';
 import { RouterModule } from '@angular/router';
-
-import { UsersComponent } from './users-page/users.component';
 import { SharedModule } from '../shared/shared.module';
+
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     RouterModule.forChild([
-      {path:'',component: UsersComponent}
+      {path:'',component:EditUserPageComponent}
     ]),
     SharedModule
   ]
 })
-export class UsersModule { }
+export class EditUserModule { }

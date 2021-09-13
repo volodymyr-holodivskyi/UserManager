@@ -1,18 +1,26 @@
 const url =require('url');
+const bcrypt = require('bcrypt');
 const { DeleteSuccess } = require('../models/delete-success');
 const { User } = require('../models/user');
 const userService=require('../services/users-service');
+
 
 function getUsers(req,res){
     let urlRequest=url.parse(req.url, true);
     let page = urlRequest.query.page;
     let pageSize = urlRequest.query.pageSize;
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
     return userService.getUsers()
             .then(rows=>{
+
                 return res.status(200).json(rows.slice(+page*+pageSize,+pageSize*+page+(+pageSize)))
+            })
+            .catch(err=>res.status(500).json(err))
+}
+
+function getUsersCount(req,res){
+    return userService.getUsers()
+            .then(rows=>{
+                return res.status(200).json(rows.length)
             })
             .catch(err=>res.status(500).json(err))
 }
@@ -20,26 +28,32 @@ function getUsers(req,res){
 function getUserById(req,res){
     let urlRequest=url.parse(req.url, true);
     let id = req.params.id;
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
     return userService.getUserById(id)
-            .then(rows=>res.status(200).json(rows[0]))
+            .then(rows=>
+                res.status(200).json(rows[0]))
             .catch(err=>res.status(500).json(res))
 }
 
-function addUser(req,res){
+async function addUser(req,res){
    const {name,email,password}=req.body;
-   res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
    if(name===''||email===''||password===''){
        return res.status(500).json('Incorect input data');
+       
    }
-   const created_at=dateTransform(new Date().toLocaleString('en-GB'))
+   let candidate;
+   await userService.getUserByEmail(email).then(rows=>{
+        candidate=rows[0];
+        if(candidate){
+            return res.status(400).json({message:'User with this email already exists'});
+        }
+   })
+    .catch(err=>res.status(500).json(res))
+   const hashPassword=bcrypt.hashSync(password,8)
+   const role='customer';
+   const created_at=dateTransform(new Date().toLocaleString('en-GB'));
    const updated_at=dateTransform(new Date().toLocaleString('en-GB'));
     
-    return userService.addUser(name,email,password,created_at,updated_at)
+    return userService.addUser(name,email,hashPassword,role,created_at,updated_at)
             .then(rows=>res.status(200).json("New user created"))
             .catch(err=>res.status(500).json(err))
 }  
@@ -49,9 +63,6 @@ function editUser(req,res){
     let id = urlRequest.query.id;
     let {name,email,password} = req.body;
     let updated_at=dateTransform(new Date().toLocaleString('en-GB'));
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
     userService.getUserById(id)
             .then(rows=>{
                 if(name===undefined||name===''){
@@ -66,10 +77,11 @@ function editUser(req,res){
                     password=rows[0].password;
                     
                 }
+                const hashPassword=bcrypt.hashSync(password,8)
                 return userService.editUser({
                     name:name,
                     email:email,
-                    password:password,
+                    password:hashPassword,
                     updated_at:updated_at
                 },id).then(rows=>{
                     return res.status(200).json(`User №${id} updated`)})
@@ -85,9 +97,9 @@ function editUser(req,res){
 function deleteUser(req,res){
     let urlRequest=url.parse(req.url, true);
     let id = urlRequest.query.id;
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+    if(id=='1'){
+        return res.status(400).json({message:'Can`t delete admin'});
+    }
     return userService.deleteUser(id)
             .then(rows=>res.status(200).json(rows[0]))
             .catch(err=>res.status(500).json(err))
@@ -108,5 +120,6 @@ module.exports={
     getUserById,
     addUser,
     editUser,
-    deleteUser
+    deleteUser,
+    getUsersCount
 }

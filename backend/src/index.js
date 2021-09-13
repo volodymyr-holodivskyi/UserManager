@@ -1,38 +1,24 @@
 const express = require("express");
-const mysql=require('mysql2');
 const cors=require('cors')
+const passport = require('passport');
+
+require("./app/controllers/auth-controller")
 
 const authRouter = require("./app/routes/auth-router");
 const userRouter = require("./app/routes/user-router");
+const { dbInit } = require("./app/services/db-service");
+const { getUsersCount } = require("./app/controllers/users-controller");
 
-const corsOptions ={ origin:'*', credentials:true}
+dbInit()
+
+const corsOptions = { origin:'*', credentials:true}
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions))
-app.use('/api/v1/users',userRouter)
+app.use('/api/v1/users',passport.authenticate('jwt', {session: false}), userRouter)
 app.use('/auth/v1',authRouter)
+app.get('/api/v1/count',getUsersCount )
 
-const connection=mysql.createConnection({
-    host:'localhost',
-    password:'olehdno200799',
-    user:'root',
-    database:'usermanager'
-}).promise();
-
-connection.execute("CREATE DATABASE usermanager")
-        .then(res=>console.log(res))
-        .catch(err=>console.log(err))
-
-connection.execute(`create table if not exists users(
-    id int primary key auto_increment,
-    name varchar(255) not null,
-    email varchar(255) not null,
-    password varchar(255) not null,
-    created_at datetime not null,
-    updated_at datetime not null
-    )`)
-    .then(res=>console.log(res))
-    .catch(err=>console.log(err));
 
 app.listen(3000,()=>{
     console.log(`Listen on port 3000`);

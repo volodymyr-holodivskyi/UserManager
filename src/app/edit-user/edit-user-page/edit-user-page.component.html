@@ -1,0 +1,35 @@
+<app-header></app-header>
+<div class="main d-flex">
+    <app-aside class="col-md-1"></app-aside>
+
+<div class="container">
+    <form class="container col-md-6 py-3">
+        <div class="form-floating mb-5">
+           <input type="text" class="form-control" [(ngModel)]="userName" #editName='ngModel' name="editName" id="editName" placeholder="name@example.com" pattern="[a-zA-Z]+" autocomplete="off" required pattern="[a-zA-Z]+">
+           <label for="floatingInput">Name</label>
+           <div *ngIf="editName.invalid&&editName.dirty&&editName.value!==''" class="alert alert-danger">
+              Incorect name.Only latin letters permitted
+           </div>
+         </div>
+        <div class="form-floating mb-5">
+           <input type="email" class="form-control" [(ngModel)]="userEmail" #editEmail='ngModel' name="editEmail" id="editEmail" placeholder="name@example.com" autocomplete="off" required pattern="[a-zA-Z0-9_]{3,}\@[a-z]{2,8}\.[a-z]{2,4}"> 
+           <label for="floatingInput">Email address</label>
+           <div *ngIf="editEmail.invalid&&editEmail.dirty&&editEmail.value!==''" class="alert alert-danger">
+              Incorect email.Email example:name@gmail.com
+           </div>
+         </div>
+         <div class="form-floating mb-5">
+           <input type="password" class="form-control" [(ngModel)]="userPassword" #editPassword='ngModel' name="editPassword" id="editPassword" placeholder="Password" required pattern="[a-zA-Z0-9_]{4,16}">
+           <label for="floatingPassword">Password</label>
+           <div *ngIf="editPassword.invalid&&editPassword.dirty&&editPassword.value!==''" class="alert alert-danger">
+              Incorect password.You can use only latin letters,numbers and _
+           </div>
+         </div>
+         <div class="d-flex justify-content-center mb-5">
+            <button class="btn btn-primary" [disabled]='editName.invalid||editPassword.invalid||editPassword.pristine||editEmail.invalid' (click)="editUser()">Edit User</button>
+         </div>
+         <div toastContainer></div>
+     </form>
+</div>
+</div>
+<app-footer></app-footer>

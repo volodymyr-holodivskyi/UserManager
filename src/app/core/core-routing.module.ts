@@ -7,6 +7,7 @@ const routes: Routes = [
   {path:'login',loadChildren:()=>import('../login/login.module').then(m=>m.LoginModule)},
   {path:'users',loadChildren:()=>import('../users/users.module').then(m=>m.UsersModule)},
   {path:'users/:id',loadChildren:()=>import('../user-details/user-delails.module').then(m=>m.UserDelailsModule)},
+  {path:'users/edit/:id',loadChildren:()=>import('../edit-user/edit-user.module').then(m=>m.EditUserModule)},
   {path:'',redirectTo:'login',pathMatch:'full'},
   {path:'**',loadChildren:()=>import('../not-found/not-found.module').then(m=>m.NotFoundModule)}
 ];
