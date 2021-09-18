@@ -1,7 +1,9 @@
 <aside>
-    <ul>
-        <li *ngFor="let route of routes">
-            <button class="btn btn-outline-primary" [routerLink]="route.path">{{route.title}}</button>
-        </li>
-    </ul>
+  <ul>
+    <li *ngFor="let route of routes">
+      <button class="btn btn-outline-primary" [routerLink]="route.path">
+        {{ route.title }}
+      </button>
+    </li>
+  </ul>
 </aside>

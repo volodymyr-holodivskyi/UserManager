@@ -1,0 +1,10 @@
+<h1 mat-dialog-title class="modal-header justify-content-center">Confirm</h1>
+<div mat-dialog-content class="modal-body">{{ confirmMessage }}</div>
+<div mat-dialog-actions class="modal-footer">
+  <button mat-button class="btn btn-success" (click)="dialogRef.close(true)">
+    Confirm
+  </button>
+  <button mat-button class="btn btn-danger" (click)="dialogRef.close(false)">
+    Cancel
+  </button>
+</div>

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UserDetailsComponent } from './user-details-page/user-details.component';
 import { SharedModule } from '../shared/shared.module';
+import { UserDetailsGuard } from '../shared/guards/user-details.guard';
+import { UserDetailsExitGuard } from '../shared/guards/user-details-exit.guard';
 
 
 
@@ -11,7 +13,7 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     RouterModule.forChild([
-      {path:'',component:UserDetailsComponent}
+      {path:'',component:UserDetailsComponent,canActivate:[UserDetailsGuard],canDeactivate:[UserDetailsExitGuard]}
     ]),
     SharedModule
   ]

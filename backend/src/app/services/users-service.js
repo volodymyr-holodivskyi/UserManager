@@ -24,15 +24,15 @@ function getUserById(id){
             .catch((err)=>err);
 }
 
-function addUser(name,email,password,role,created_at,updated_at){
-    return connection.execute(`insert into users (name,email,password,role,created_at,updated_at) values ('${name}','${email}','${password}','${role}','${created_at}','${updated_at}')`)
+function addUser(name,email,password,role,created_at,updated_at,entitlements){
+    return connection.execute(`insert into users (name,email,password,role,created_at,updated_at,entitlements) values ('${name}','${email}','${password}','${role}','${created_at}','${updated_at}','${entitlements}')`)
     .then((res)=>res)
     .catch((err)=>err);
 }
 
 function editUser(data,id){
-    const {name,email,password,updated_at}=data;
-    return connection.execute(`update users set name='${name}',email='${email}',password='${password}',updated_at='${updated_at}' where id=${id}`)
+    const {name,email,password,updated_at,entitlements}=data;
+    return connection.execute(`update users set name='${name}',email='${email}',password='${password}',updated_at='${updated_at}',entitlements='${entitlements}' where id=${id}`)
     .then((res)=>res)
     .catch((err)=>err);
 }

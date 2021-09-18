@@ -9,7 +9,7 @@ const userRouter = require("./app/routes/user-router");
 const { dbInit } = require("./app/services/db-service");
 const { getUsersCount } = require("./app/controllers/users-controller");
 
-dbInit()
+
 
 const corsOptions = { origin:'*', credentials:true}
 const app = express();
@@ -21,5 +21,6 @@ app.get('/api/v1/count',getUsersCount )
 
 
 app.listen(3000,()=>{
+    dbInit() 
     console.log(`Listen on port 3000`);
 })

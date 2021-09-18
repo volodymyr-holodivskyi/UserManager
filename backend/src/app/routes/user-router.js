@@ -6,7 +6,7 @@ const userRouter=express.Router();
 
 userRouter.get("/:id",roleMiddleware(['admin','customer']),getUserById);
 userRouter.get('/',roleMiddleware(['admin','customer']), getUsers);
-userRouter.post('/',roleMiddleware(['admin']),addUser);
-userRouter.put('/',roleMiddleware(['admin']),editUser);
-userRouter.delete('/:id',roleMiddleware(['admin']),deleteUser);
+userRouter.post('/',roleMiddleware(['admin','customer']),addUser);
+userRouter.put('/',roleMiddleware(['admin','customer']),editUser);
+userRouter.delete('/:id',roleMiddleware(['admin','customer']),deleteUser);
 module.exports=userRouter;

@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, InjectionToken, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {} from '@angular/compiler';
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
@@ -14,8 +14,16 @@ import { LoginComponent } from './login/login-page/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
-import { HttpErrorInterceptorService } from './shared/app-error-handler.service';
-import { EditUserPageComponent } from './edit-user/edit-user-page/edit-user-page.component';
+import { HttpErrorInterceptorService } from './shared/services/http-interceptor.service';
+import { GlobalErrorHandler } from './shared/services/global-error-handler.service';
+import { UserDetailsGuard } from './shared/guards/user-details.guard';
+import { UserDetailsExitGuard } from './shared/guards/user-details-exit.guard';
+import { ConfirmationDialog } from './shared/confirmation-dialog/confirmation-dialog.component';
+import {
+  MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+} from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +34,6 @@ import { EditUserPageComponent } from './edit-user/edit-user-page/edit-user-page
     NotFoundComponent,
     MyPageComponent,
     LoginComponent,
-    EditUserPageComponent
   ],
   imports: [
     BrowserModule,
@@ -34,11 +41,23 @@ import { EditUserPageComponent } from './edit-user/edit-user-page/edit-user-page
     HttpClientModule,
     FormsModule,
     SharedModule,
+    MatDialogModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({positionClass: 'inline'}),
+    ToastrModule.forRoot({ positionClass: 'inline' }),
     ToastContainerModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptorService , multi: true}],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptorService,
+      multi: true,
+    },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    UserDetailsGuard,
+    UserDetailsExitGuard,
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmationDialog],
 })
-export class AppModule { }
+export class AppModule {}

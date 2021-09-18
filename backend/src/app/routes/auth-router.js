@@ -43,6 +43,7 @@ authRouter.post('/token',function (req,res,next){
         getUserByEmail(email)
         .then(rows=>{
             const token=jwt.sign({user:rows[0]},'your_jwt_secret',{expiresIn:60});
+            console.log(rows[0],token);
             return res.json({email:email,token:token});
         })
         .catch(err=>res.status(401).json({message:'Unauthorized'}))

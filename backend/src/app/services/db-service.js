@@ -26,6 +26,7 @@ async function dbInit(){
         role enum('admin','customer') not null,
         created_at datetime not null,
         updated_at datetime not null,
+        entitlements set('can_view_users', 'can_edit_users', 'can_delete_users', 'can_view_details', 'can_view_details_full', 'can_edit_users_full') not null,
         unique(email)
         )`)
         .then(res=>console.log(res))
@@ -34,8 +35,9 @@ async function dbInit(){
     connection.execute(`select * from users`)
             .then(([rows,fields])=>{
                 if(rows.length===0){
-                    connection.execute(`insert into users (name,email,password,role,created_at,updated_at) 
-                    values ('admin','admin@gmail.com','${bcrypt.hashSync('admin',8)}','admin','2021-09-05','2021-09-05')`)
+                    connection.execute(`insert into users (name,email,password,role,created_at,updated_at,entitlements) 
+                    values ('admin','admin@gmail.com','${bcrypt.hashSync('admin',8)}','admin','2021-09-05','2021-09-05','can_view_users,can_edit_users,can_delete_users,can_view_details,can_view_details_full,can_edit_users_full'),
+                            ('customer','customer@gmail.com','${bcrypt.hashSync('1234',8)}','customer','2021-09-05','2021-09-05','can_view_users')`)
                     .then(res=>console.log(res))
                     .catch(err=>console.log(err));
                 }
