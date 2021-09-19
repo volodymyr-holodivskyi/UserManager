@@ -27,6 +27,7 @@ export class UserDetailsComponent implements OnInit, ComponentCanDeactivate {
   userId: string | null = localStorage.getItem('userId');
   editMode: boolean = false;
   canEdit: boolean | undefined;
+  canViewEntitlements: boolean | undefined;
   canEditEntitlements: boolean | undefined;
   modalResponce: boolean = false;
   user: User = new User('', '', '', '', '', 0, '');
@@ -89,7 +90,7 @@ export class UserDetailsComponent implements OnInit, ComponentCanDeactivate {
       hasBackdrop: true,
     });
     this.dialogRef.componentInstance.confirmMessage =
-      'Are you sure you want to delete?';
+      'Are you sure you want to exit?';
     return this.dialogRef.afterClosed().toPromise();
   }
 
@@ -109,6 +110,10 @@ export class UserDetailsComponent implements OnInit, ComponentCanDeactivate {
           this.userEntitlements[item] = true;
         }
       }
+      this.canViewEntitlements = localStorage
+        .getItem('entitlements')
+        ?.split(',')
+        .includes('can_view_users_full');
       this.canEdit = localStorage
         .getItem('entitlements')
         ?.split(',')
