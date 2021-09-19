@@ -37,7 +37,11 @@ export class UsersComponent implements OnInit {
       .getUsers(this.page, this.pageSize)
       .subscribe((data: User[]) => {
         this.users = data;
-        this.users.sort((a: any, b: any) => a.name - b.name);
+        this.users.sort((a: any, b: any) => {
+          if (a.name > b.name) return 1;
+          if (a.name < b.name) return -1;
+          return 0;
+        });
       });
 
     setInterval(() => {
@@ -57,7 +61,11 @@ export class UsersComponent implements OnInit {
         .getUsers(this.page, this.pageSize)
         .subscribe((data: User[]) => {
           this.users = data;
-          this.users.sort((a: any, b: any) => a.name - b.name);
+          this.users.sort((a: any, b: any) => {
+            if (a.name > b.name) return 1;
+            if (a.name < b.name) return -1;
+            return 0;
+          });
         });
     }
   }
@@ -68,7 +76,11 @@ export class UsersComponent implements OnInit {
         .getUsers(this.page, this.pageSize)
         .subscribe((data: User[]) => {
           this.users = data;
-          this.users.sort((a: any, b: any) => a.name - b.name);
+          this.users.sort((a: any, b: any) => {
+            if (a.name > b.name) return 1;
+            if (a.name < b.name) return -1;
+            return 0;
+          });
         });
     }
   }
@@ -88,7 +100,11 @@ export class UsersComponent implements OnInit {
             .getUsers(this.page, this.pageSize)
             .subscribe((data: User[]) => {
               this.users = data;
-              this.users.sort((a: any, b: any) => a.name - b.name);
+              this.users.sort((a: any, b: any) => {
+                if (a.name > b.name) return 1;
+                if (a.name < b.name) return -1;
+                return 0;
+              });
             });
         } else {
           this.notifyService.showMessage('error', 'Incorect input', 'Error');

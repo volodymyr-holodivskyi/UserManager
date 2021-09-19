@@ -87,7 +87,7 @@ export class UserDetailsComponent implements OnInit, ComponentCanDeactivate {
   openConfirmationDialog() {
     this.dialogRef = this.dialog.open(ConfirmationDialog, {
       disableClose: false,
-      hasBackdrop: true,
+      hasBackdrop: true
     });
     this.dialogRef.componentInstance.confirmMessage =
       'Are you sure you want to exit?';
@@ -113,7 +113,7 @@ export class UserDetailsComponent implements OnInit, ComponentCanDeactivate {
       this.canViewEntitlements = localStorage
         .getItem('entitlements')
         ?.split(',')
-        .includes('can_view_users_full');
+        .includes('can_view_details_full');
       this.canEdit = localStorage
         .getItem('entitlements')
         ?.split(',')
